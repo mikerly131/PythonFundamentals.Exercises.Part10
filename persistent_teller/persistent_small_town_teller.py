@@ -1,5 +1,6 @@
 from uuid import uuid4
 import itertools
+import pickle
 
 
 class Person:
@@ -74,12 +75,41 @@ class Bank:
 
         return acct_balance
 
+    def save_data(self):
+        customers_to_write = self.customers
+        PersistenceUtils.write_pickle('bank_customers.pkl', customers_to_write)
+        accounts_to_write = self.accounts
+        PersistenceUtils.write_pickle('bank_accounts.pkl', accounts_to_write)
 
+    def load_data(self):
+
+        self.customers = PersistenceUtils.load_pickle('bank_customers.pkl')
+        self.accounts = PersistenceUtils.load_pickle('bank_accounts.pkl')
+
+
+class PersistenceUtils:
+
+    @staticmethod
+    def write_pickle(file_to_write: str, list_to_write: list):
+
+        with open(file_to_write, 'wb') as f:
+            pickle.dump(list_to_write, f)
+            f.close()
+
+    @staticmethod
+    def load_pickle(file_to_load: str) -> list:
+
+        with open(file_to_load, 'rb') as f:
+            temp_list = pickle.load(f)
+
+        return temp_list
+
+
+"""
+Test program to play with the functions and classes
+"""
 if __name__ == '__main__':
 
-    """
-    Test program to play with the functions and classes
-    """
     person_bob = Person('Bob', 'Smith', 34)
     person_karen = Person('Karen', 'Jones', 45)
     person_kevin = Person('Kevin', 'Johnson', 56)
