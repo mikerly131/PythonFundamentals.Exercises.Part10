@@ -2,6 +2,9 @@ from uuid import uuid4
 import itertools
 import pickle
 
+"""
+Persistent teller -> save data when done, quit, next time load your data after making your bank
+"""
 
 class Person:
 
